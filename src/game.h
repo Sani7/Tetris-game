@@ -10,6 +10,7 @@ public:
     ~Game();
 
     void init(std::string build_path);
+    void shuffleBlocks();
 
     void draw();
     void handleInput();

@@ -1,10 +1,11 @@
 #include "game.h"
+#include <algorithm>
 #include <ctime>
 #include <random>
+#include <vector>
 
 Game::Game()
 {
-    blocks = getAllBlocks();
     currentBlock = getRandomBlock();
     nextBlock = getRandomBlock();
     srand(time(NULL));
@@ -32,12 +33,19 @@ Block Game::getRandomBlock()
     if (blocks.empty())
     {
         blocks = getAllBlocks();
+        shuffleBlocks();
     }
-    int randomIndex = rand() % blocks.size();
-    Block block = blocks[randomIndex];
-    blocks.erase(blocks.begin() + randomIndex);
 
+    Block block = blocks.back();
+    blocks.pop_back();
     return block;
+}
+
+void Game::shuffleBlocks()
+{
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(blocks.begin(), blocks.end(), g);
 }
 
 std::vector<Block> Game::getAllBlocks()
